@@ -7,7 +7,7 @@ from django.conf import settings
 from .serializers import FileUploadSerializer
 # Create your views here.
 
-class Test(APIView):
+class FileUploadView(APIView):
   def post(self, request, *args, **kwargs):
     serializer = FileUploadSerializer(data=request.data)
 
