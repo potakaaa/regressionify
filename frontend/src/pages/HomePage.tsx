@@ -1,11 +1,25 @@
 import axios from "axios";
+import { error } from "console";
+import { title } from "process";
 
 const Homepage = () => {
-  const onChange = (e: any) => {
+  const handleFileUpload = (e: any) => {
     const file = e.target.files[0];
     console.log(file);
 
-    axios.post(`${import.meta.env.VITE_API_URL}posts/upload/`, file);
+    const test = { body: "test", title: "test" };
+
+    axios
+      .post(`${import.meta.env.VITE_API_URL}posts/`, test)
+      .then((response) => {
+        console.log("File uploaded successfully: ", response.data);
+      })
+      .catch((error: any) => {
+        console.error(
+          "Error uploading file: ",
+          error.response?.data || error.message
+        );
+      });
   };
 
   {
@@ -42,7 +56,12 @@ const Homepage = () => {
   "
     >
       Home Page
-      <input type="file" accept=".xlsx" required />
+      <input
+        type="file"
+        accept=".xlsx, .xls, "
+        required
+        onChange={handleFileUpload}
+      />
     </div>
   );
 };
