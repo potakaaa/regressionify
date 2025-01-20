@@ -42,8 +42,18 @@ INSTALLED_APPS = [
     'corsheaders',
     
     'posts',
+    'file_upload',
     
 ]
+
+
+import os
+
+# Directory where uploaded files will be stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL through which media files can be accessed
+MEDIA_URL = '/media/'
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
 
