@@ -7,10 +7,14 @@ const Homepage = () => {
     const file = e.target.files[0];
     console.log(file);
 
+    const data = new FormData(); // initialize form data form shit
+
+    data.append("file", file); //key-value pair of "file:{actual file}"
+
     const test = { body: "test", title: "test" };
 
     axios
-      .post(`${import.meta.env.VITE_API_URL}posts/`, test)
+      .post(`${import.meta.env.VITE_API_URL}upload/`, data)
       .then((response) => {
         console.log("File uploaded successfully: ", response.data);
       })
