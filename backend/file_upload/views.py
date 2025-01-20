@@ -15,8 +15,9 @@ class FileUploadView(APIView):
       uploaded_file = serializer.validated_data['file']
 
       file_path = default_storage.save(f"uploads/{uploaded_file.name}", uploaded_file)
-      file_url = default_storage.url(file_path)
+      file_url = default_storage.url(file_path) 
 
-      return Response({"file_url": file_url}, status=status.HTTP_201_CREATED)
+      return Response({"file_url": file_url}, status=status.HTTP_201_CREATED) #this returned value is to be used to reference the file
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
