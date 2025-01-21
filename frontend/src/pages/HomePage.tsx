@@ -7,16 +7,16 @@ const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
   const [sheetList, setSheetList] = useState<string[]>([]);
   const [columnList, setColumnList] = useState<string[]>([]);
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>();
 
   const handleFileUpload = (e: any) => {
-    setFile(e.target.files[0]);
-    console.log(file);
+    const uploadedFile = e.target.files[0];
+    setFile(uploadedFile);
 
     const data = new FormData(); // initialize form data form shit
 
-    if (file) {
-      data.append("file", file); //key-value pair of "file:{actual file}"
+    if (uploadedFile) {
+      data.append("file", uploadedFile); //key-value pair of "file:{actual file}"
     }
 
     axios
@@ -33,10 +33,30 @@ const HomePage = () => {
       });
   };
 
-  const handleSheetSelect = (e: any) => {};
+  const handleSheetSelect = (e: any) => {
+    setSheetname(e.target.value);
+
+    const sheetSelect = {
+      file,
+      sheetname,
+    };
+
+    axios
+      .post(`${import.meta.env.VITE_API_URL}select_sheet/`, sheetSelect)
+      .then((response) => {
+        console.log("Columns retrieved successfully: ", response.data);
+      })
+      .catch((error: any) => {
+        console.error(
+          "Error uploading file: ",
+          error.response?.data || error.message
+        );
+      });
+  };
 
   useEffect(() => {
     console.log("Sheets: ", sheetList);
+    console.log("File name: ", file);
   }, [sheetList]);
 
   return (
@@ -52,7 +72,11 @@ const HomePage = () => {
         onChange={handleFileUpload}
       />
       {sheetList.length > 0 && (
-        <select id="sheetname">
+        <select
+          id="sheetname"
+          value={sheetname ?? ""}
+          onChange={handleSheetSelect}
+        >
           {sheetList.map((sheet) => (
             <option>{sheet}</option>
           ))}
