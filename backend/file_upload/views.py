@@ -6,7 +6,9 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from .serializers import FileUploadSerializer
 import pandas as pd
-# Create your views here.
+# Create your views here.\
+  
+file_full_path = ''  
 
 class FileUploadView(APIView):
   def post(self, request, *args, **kwargs):
@@ -14,8 +16,6 @@ class FileUploadView(APIView):
 
     if serializer.is_valid():
       uploaded_file = serializer.validated_data['file']
-      sheetname = serializer.validated_data.get('sheetname') 
-      
       
       file_path = default_storage.save(f"uploads/{uploaded_file.name}", uploaded_file)
       file_url = default_storage.url(file_path) 
@@ -24,27 +24,42 @@ class FileUploadView(APIView):
       
       
       try:
-        excel_file = pd.ExcelFile(file_full_path)
-        
-        all_sheet_names = excel_file.sheet_names
-        if not sheetname:
-          sheetname = all_sheet_names[0]
-       
-        
-        df = pd.read_excel(file_full_path, sheet_name=sheetname, nrows=1)
-        columns = df.columns.to_list()
-        
+        pd.ExcelFile(file_full_path)
+        sheetnames = pd.ExcelFile(file_full_path).sheet_names
+      
       except Exception as e:
         return Response(
                     {"error": f"Could not process the file: {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
+      r
       return Response({
                         "file_url": file_url,
-                        "sheetname": sheetname,
-                        "columns": columns,
+                        "sheetnames": sheetnames,
                       }, status=status.HTTP_201_CREATED) 
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+  
+class SelectSheet(APIView):
+  def post(self, request, *args, **kwargs):
+    try:
+        
+        
+        sheetname = request.sheetname
+       
+        
+        df = pd.read_excel(file_full_path, sheet_name=sheetname, nrows=1)
+        columns = df.columns.to_list()
+        
+    except Exception as e:
+      return Response(
+                    {"error": f"Could not process the file: {str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+      
+    return Response({
+                        "columns": columns,
+                      }, status=status.HTTP_201_CREATED)
+    
 
