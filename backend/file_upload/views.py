@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.files.storage import default_storage
 from django.conf import settings
-from .serializers import FileUploadSerializer
+from .serializers import FileUploadSerializer, SelectSheetSerializer, SelectColumnsSerializer
 import pandas as pd
 # Create your views here.\
 
@@ -40,54 +40,67 @@ class FileUploadView(APIView):
   
 class SelectSheet(APIView):
   def post(self, request, *args, **kwargs):
-    # sheetname: taken from the dropdown
+    # sheetname: taken from the dropdown, stored in react state
     # file_path: taken from the state
+    serializer = SelectSheetSerializer(data=request.data)
     
-    try:
-        
-        
-        sheetname = request.sheetname
-        file_path = request.file_path
-       
-        
+    if serializer.is_valid():
+      sheetname = serializer.validated_data['sheetname']
+      file_path = serializer.validated_data['file_path']
+    
+      try:
+          
         df = pd.read_excel(file_path, sheet_name=sheetname, nrows=1)
         columns = df.columns.to_list()
         
-    except Exception as e:
-      return Response(
-                    {"error": f"Could not process the file: {str(e)}"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+        return Response({
+                          "columns": columns,
+                        }, status=status.HTTP_201_CREATED)
+          
+      except Exception as e:
+        return Response(
+                      {"error": f"Could not process the file: {str(e)}"},
+                      status=status.HTTP_400_BAD_REQUEST
+                  )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
       
-    return Response({
-                        "columns": columns,
-                      }, status=status.HTTP_201_CREATED)
+    
     
     
 class SelectColumns(APIView):
   def post(self, request, *args, **kwargs):
-    #sheetname: taken from the dropdown
-    #columns: taken from the checkboxes / dropdown
+    #sheetname: taken from the state after selecting the sheet
+    #independent_columns: taken after selecting the columns
+    #dependent_column: taken after selecting the column
     #file_path: taken from the state
     
-    try:
+    serializer = SelectColumnsSerializer(data=request.data)
+    
+    if serializer.is_valid():
+      sheetname = serializer.validated_data['sheetname']
+      columns = serializer.validated_data['dependent_column'] + serializer.validated_data['independent_columns']
+      file_path = serializer.validated_data['file_path']
+    
+      try:
+          df = pd.read_excel(file_path, sheet_name=sheetname, usecols=columns)
+          data = df.to_dict(orient='records') #temportry test for check if ga read ba
+          
+          # REGRESSION SHIT CAN GO HERE
+          
+          return Response({
+                          "data": data,
+                        }, status=status.HTTP_201_CREATED)
         
-        sheetname = request.sheetname
-        columns = request.columns
-        file_path = request.file_path
-        df = pd.read_excel(file_path, sheet_name=sheetname, usecols=columns)
-        data = df.to_dict(orient='records')
-        
-      # REGRESSION SHIT CAN GO HERE
-        
-    except Exception as e:
-      return Response(
-                    {"error": f"Could not process the file: {str(e)}"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+          
+      except Exception as e:
+        return Response(
+                      {"error": f"Could not process the file: {str(e)}"},
+                      status=status.HTTP_400_BAD_REQUEST
+                  )
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
       
-    return Response({
-                        "data": data,
-                      }, status=status.HTTP_201_CREATED)
+    
     
 

@@ -13,9 +13,6 @@ const HomePage = () => {
     const data = new FormData(); // initialize form data form shit
 
     data.append("file", file); //key-value pair of "file:{actual file}"
-    if (sheetname !== null) {
-      data.append("sheetname", sheetname); //add sheetname if there is, otherwise use default
-    }
 
     axios
       .post(`${import.meta.env.VITE_API_URL}upload/`, data)

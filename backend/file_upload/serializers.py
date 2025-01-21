@@ -4,4 +4,14 @@ class FileUploadSerializer(serializers.Serializer):
   file = serializers.FileField(
     validators=[FileExtensionValidator(allowed_extensions=['xls', 'xlsx'])]
   )
-  sheetname = serializers.CharField(required=False, allow_blank=True)
+
+class SelectSheetSerializer(serializers.Serializer):
+  sheetname = serializers.CharField()
+  file_path = serializers.CharField()
+  
+
+class SelectColumnsSerializer(serializers.Serializer):
+  independent_columns = serializers.ListField(child=serializers.CharField())
+  dependent_column = serializers.CharField()
+  sheetname = serializers.CharField()
+  file_path = serializers.CharField()
