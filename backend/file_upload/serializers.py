@@ -4,3 +4,4 @@ class FileUploadSerializer(serializers.Serializer):
   file = serializers.FileField(
     validators=[FileExtensionValidator(allowed_extensions=['xls', 'xlsx'])]
   )
+  sheetname = serializers.CharField(required=False, allow_blank=True)
