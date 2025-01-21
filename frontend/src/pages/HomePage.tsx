@@ -6,14 +6,18 @@ import { useEffect, useState } from "react";
 const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
   const [sheetList, setSheetList] = useState<string[]>([]);
+  const [columnList, setColumnList] = useState<string[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleFileUpload = (e: any) => {
-    const file = e.target.files[0];
+    setFile(e.target.files[0]);
     console.log(file);
 
     const data = new FormData(); // initialize form data form shit
 
-    data.append("file", file); //key-value pair of "file:{actual file}"
+    if (file) {
+      data.append("file", file); //key-value pair of "file:{actual file}"
+    }
 
     axios
       .post(`${import.meta.env.VITE_API_URL}upload/`, data)
@@ -28,6 +32,8 @@ const HomePage = () => {
         );
       });
   };
+
+  const handleSheetSelect = (e: any) => {};
 
   useEffect(() => {
     console.log("Sheets: ", sheetList);
@@ -45,15 +51,19 @@ const HomePage = () => {
         required
         onChange={handleFileUpload}
       />
-      <select id="sheetname">
-        {sheetList.map((sheet) => (
-          <option>{sheet}</option>
-        ))}
-      </select>
-      <select>
-        <option>col 1</option>
-        <option>col 2</option>
-      </select>
+      {sheetList.length > 0 && (
+        <select id="sheetname">
+          {sheetList.map((sheet) => (
+            <option>{sheet}</option>
+          ))}
+        </select>
+      )}
+      {columnList.length > 0 && (
+        <select>
+          <option>col 1</option>
+          <option>col 2</option>
+        </select>
+      )}
     </div>
   );
 };
