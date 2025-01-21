@@ -1,8 +1,11 @@
 import axios from "axios";
 import { error } from "console";
 import { title } from "process";
+import { useState } from "react";
 
 const Homepage = () => {
+  const [sheetname, setSheetname] = useState<string | null>(null);
+
   const handleFileUpload = (e: any) => {
     const file = e.target.files[0];
     console.log(file);
@@ -10,6 +13,9 @@ const Homepage = () => {
     const data = new FormData(); // initialize form data form shit
 
     data.append("file", file); //key-value pair of "file:{actual file}"
+    if (sheetname !== null) {
+      data.append("sheetname", sheetname); //add sheetname if there is, otherwise use default
+    }
 
     const test = { body: "test", title: "test" };
 
