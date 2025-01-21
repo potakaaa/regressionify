@@ -7,11 +7,10 @@ const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
   const [sheetList, setSheetList] = useState<string[]>([]);
   const [columnList, setColumnList] = useState<string[]>([]);
-  const [file, setFile] = useState<File | null>();
+  const [filePath, setFilePath] = useState<string | null>(null);
 
   const handleFileUpload = (e: any) => {
     const uploadedFile = e.target.files[0];
-    setFile(uploadedFile);
 
     const data = new FormData(); // initialize form data form shit
 
@@ -24,6 +23,7 @@ const HomePage = () => {
       .then((response) => {
         console.log("File uploaded successfully: ", response.data);
         setSheetList(response.data.sheetnames);
+        setFilePath(response.data.file_full_path);
       })
       .catch((error: any) => {
         console.error(
@@ -34,17 +34,19 @@ const HomePage = () => {
   };
 
   const handleSheetSelect = (e: any) => {
-    setSheetname(e.target.value);
+    const selectedSheet = e.target.value;
+    setSheetname(selectedSheet);
 
     const sheetSelect = {
-      file,
-      sheetname,
+      file_path: filePath,
+      sheetname: selectedSheet,
     };
 
     axios
       .post(`${import.meta.env.VITE_API_URL}select_sheet/`, sheetSelect)
       .then((response) => {
         console.log("Columns retrieved successfully: ", response.data);
+        setColumnList(response.data.columns);
       })
       .catch((error: any) => {
         console.error(
@@ -56,7 +58,7 @@ const HomePage = () => {
 
   useEffect(() => {
     console.log("Sheets: ", sheetList);
-    console.log("File name: ", file);
+    console.log("File Path: ", filePath);
   }, [sheetList]);
 
   return (
@@ -84,8 +86,9 @@ const HomePage = () => {
       )}
       {columnList.length > 0 && (
         <select>
-          <option>col 1</option>
-          <option>col 2</option>
+          {columnList.map((sheet) => (
+            <option>{sheet}</option>
+          ))}
         </select>
       )}
     </div>
