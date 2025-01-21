@@ -31,7 +31,7 @@ class FileUploadView(APIView):
                 )
       
       return Response({
-                        "file_full_path": file_full_path,
+                        "file_full_path": file_full_path, #STORE THIS IN A REACT STATE
                         "sheetnames": sheetnames,
                       }, status=status.HTTP_201_CREATED) 
     
@@ -40,6 +40,9 @@ class FileUploadView(APIView):
   
 class SelectSheet(APIView):
   def post(self, request, *args, **kwargs):
+    # sheetname: taken from the dropdown
+    # file_path: taken from the state
+    
     try:
         
         
@@ -63,6 +66,10 @@ class SelectSheet(APIView):
     
 class SelectColumns(APIView):
   def post(self, request, *args, **kwargs):
+    #sheetname: taken from the dropdown
+    #columns: taken from the checkboxes / dropdown
+    #file_path: taken from the state
+    
     try:
         
         sheetname = request.sheetname
