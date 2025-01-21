@@ -7,8 +7,6 @@ from django.conf import settings
 from .serializers import FileUploadSerializer
 import pandas as pd
 # Create your views here.\
-  
-file_full_path = ''  
 
 class FileUploadView(APIView):
   def post(self, request, *args, **kwargs):
@@ -18,7 +16,6 @@ class FileUploadView(APIView):
       uploaded_file = serializer.validated_data['file']
       
       file_path = default_storage.save(f"uploads/{uploaded_file.name}", uploaded_file)
-      file_url = default_storage.url(file_path) 
       
       file_full_path = default_storage.path(file_path)
       
@@ -32,9 +29,9 @@ class FileUploadView(APIView):
                     {"error": f"Could not process the file: {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-      r
+      
       return Response({
-                        "file_url": file_url,
+                        "file_full_path": file_full_path,
                         "sheetnames": sheetnames,
                       }, status=status.HTTP_201_CREATED) 
     
@@ -47,9 +44,10 @@ class SelectSheet(APIView):
         
         
         sheetname = request.sheetname
+        file_path = request.file_path
        
         
-        df = pd.read_excel(file_full_path, sheet_name=sheetname, nrows=1)
+        df = pd.read_excel(file_path, sheet_name=sheetname, nrows=1)
         columns = df.columns.to_list()
         
     except Exception as e:
@@ -60,6 +58,29 @@ class SelectSheet(APIView):
       
     return Response({
                         "columns": columns,
+                      }, status=status.HTTP_201_CREATED)
+    
+    
+class SelectColumns(APIView):
+  def post(self, request, *args, **kwargs):
+    try:
+        
+        sheetname = request.sheetname
+        columns = request.columns
+        file_path = request.file_path
+        df = pd.read_excel(file_path, sheet_name=sheetname, usecols=columns)
+        data = df.to_dict(orient='records')
+        
+      # REGRESSION SHIT CAN GO HERE
+        
+    except Exception as e:
+      return Response(
+                    {"error": f"Could not process the file: {str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+      
+    return Response({
+                        "data": data,
                       }, status=status.HTTP_201_CREATED)
     
 
