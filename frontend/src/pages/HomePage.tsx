@@ -3,7 +3,7 @@ import { error } from "console";
 import { title } from "process";
 import { useState } from "react";
 
-const Homepage = () => {
+const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
 
   const handleFileUpload = (e: any) => {
@@ -16,8 +16,6 @@ const Homepage = () => {
     if (sheetname !== null) {
       data.append("sheetname", sheetname); //add sheetname if there is, otherwise use default
     }
-
-    const test = { body: "test", title: "test" };
 
     axios
       .post(`${import.meta.env.VITE_API_URL}upload/`, data)
@@ -32,34 +30,6 @@ const Homepage = () => {
       });
   };
 
-  {
-    /* 
-    const handleSendPost = () => {
-    console.log(title);
-    console.log(body);
-    const newPost = {
-      id: data.length + 1,
-      title: title,
-      body: body,
-    };
-
-    axios
-      .post(`${import.meta.env.VITE_API_URL}posts/`, newPost)
-      .then((response) => {
-        setData([...data, response.data]);
-      })
-      .catch((error) =>
-        console.error(
-          "Error creating post: ",
-          error.response?.data || error.message
-        )
-      );
-    setTitle("");
-    setBody("");
-  };
-    */
-  }
-
   return (
     <div
       className="w-full flex flex-col justify-center items-center
@@ -72,8 +42,16 @@ const Homepage = () => {
         required
         onChange={handleFileUpload}
       />
+      <select>
+        <option>sheet 1</option>
+        <option>sheet 2</option>
+      </select>
+      <select>
+        <option>col 1</option>
+        <option>col 2</option>
+      </select>
     </div>
   );
 };
 
-export default Homepage;
+export default HomePage;

@@ -29,6 +29,7 @@ class FileUploadView(APIView):
         all_sheet_names = excel_file.sheet_names
         if not sheetname:
           sheetname = all_sheet_names[0]
+       
         
         df = pd.read_excel(file_full_path, sheet_name=sheetname, nrows=1)
         columns = df.columns.to_list()

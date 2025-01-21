@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import Homepage from "./pages/Homepage.tsx";
+import Homepage from "./pages/HomePage.tsx";
 import ResultsPage from "./pages/ResultsPage.tsx";
 
 const router = createHashRouter([
