@@ -1,10 +1,11 @@
 import axios from "axios";
 import { error } from "console";
 import { title } from "process";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
+  const [sheetList, setSheetList] = useState<string[]>([]);
 
   const handleFileUpload = (e: any) => {
     const file = e.target.files[0];
@@ -18,6 +19,7 @@ const HomePage = () => {
       .post(`${import.meta.env.VITE_API_URL}upload/`, data)
       .then((response) => {
         console.log("File uploaded successfully: ", response.data);
+        setSheetList(response.data.sheetnames);
       })
       .catch((error: any) => {
         console.error(
@@ -27,6 +29,10 @@ const HomePage = () => {
       });
   };
 
+  useEffect(() => {
+    console.log("Sheets: ", sheetList);
+  }, [sheetList]);
+
   return (
     <div
       className="w-full flex flex-col justify-center items-center
@@ -35,13 +41,14 @@ const HomePage = () => {
       Home Page
       <input
         type="file"
-        accept=".xlsx, .xls, "
+        accept=".xlsx, .xls"
         required
         onChange={handleFileUpload}
       />
-      <select>
-        <option>sheet 1</option>
-        <option>sheet 2</option>
+      <select id="sheetname">
+        {sheetList.map((sheet) => (
+          <option>{sheet}</option>
+        ))}
       </select>
       <select>
         <option>col 1</option>
