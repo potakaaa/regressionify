@@ -6,6 +6,7 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from .serializers import FileUploadSerializer, SelectSheetSerializer, SelectColumnsSerializer
 import pandas as pd
+from .utils.regression import regression
 # Create your views here.\
 
 class FileUploadView(APIView):
@@ -65,9 +66,6 @@ class SelectSheet(APIView):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
       
-    
-    
-    
 class SelectColumns(APIView):
   def post(self, request, *args, **kwargs):
     #sheetname: taken from the state after selecting the sheet
@@ -79,17 +77,21 @@ class SelectColumns(APIView):
     
     if serializer.is_valid():
       sheetname = serializer.validated_data['sheetname']
-      columns = serializer.validated_data['dependent_column'] + serializer.validated_data['independent_columns']
+      dependent_column = serializer.validated_data['dependent_column']
+      independent_columns = serializer.validated_data['independent_columns']
       file_path = serializer.validated_data['file_path']
+      
+      columns = independent_columns + [dependent_column]
+    
+    
     
       try:
           df = pd.read_excel(file_path, sheet_name=sheetname, usecols=columns)
-          data = df.to_dict(orient='records') #temportry test for check if ga read ba
           
-          # REGRESSION SHIT CAN GO HERE
+          regression_summary = regression(df, dependent_column, independent_columns)
           
           return Response({
-                          "data": data,
+                          "regression_summary": regression_summary,
                         }, status=status.HTTP_201_CREATED)
         
           
