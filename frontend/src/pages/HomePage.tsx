@@ -67,7 +67,7 @@ const HomePage = () => {
       className="w-full flex flex-col justify-center items-center"
     >
       <h1 className="font-black text-4xl text-primary">REGRESSIONIFY</h1>
-      <p className="text">
+      <p className="font-medium w-72">
         A Statistical Tool For Mathematicians And Statisticians.
       </p>
     </div>
