@@ -66,10 +66,15 @@ const HomePage = () => {
       id="homepage-container"
       className="w-full flex flex-col justify-center items-center"
     >
-      <h1 className="font-black text-4xl text-primary">REGRESSIONIFY</h1>
-      <p className="font-medium w-72">
-        A Statistical Tool For Mathematicians And Statisticians.
-      </p>
+      <div
+        id="title-container"
+        className="flex flex-col justify-center items-center"
+      >
+        <h1 className="font-extrabold text-4xl text-primary">REGRESSIONIFY</h1>
+        <p className="font-medium w-72 px-2 text-sm">
+          A Statistical Tool For Mathematicians And Statisticians.
+        </p>
+      </div>
     </div>
   );
 };
