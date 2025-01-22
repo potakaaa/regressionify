@@ -63,34 +63,13 @@ const HomePage = () => {
 
   return (
     <div
-      className="w-full flex flex-col justify-center items-center
-  "
+      id="homepage-container"
+      className="w-full flex flex-col justify-center items-center"
     >
-      Home Page
-      <input
-        type="file"
-        accept=".xlsx, .xls"
-        required
-        onChange={handleFileUpload}
-      />
-      {sheetList.length > 0 && (
-        <select
-          id="sheetname"
-          value={sheetname ?? ""}
-          onChange={handleSheetSelect}
-        >
-          {sheetList.map((sheet) => (
-            <option>{sheet}</option>
-          ))}
-        </select>
-      )}
-      {columnList.length > 0 && (
-        <select>
-          {columnList.map((sheet) => (
-            <option>{sheet}</option>
-          ))}
-        </select>
-      )}
+      <h1 className="font-black text-4xl text-primary">REGRESSIONIFY</h1>
+      <p className="text">
+        A Statistical Tool For Mathematicians And Statisticians.
+      </p>
     </div>
   );
 };
