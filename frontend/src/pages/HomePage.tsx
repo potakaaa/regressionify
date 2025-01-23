@@ -1,3 +1,4 @@
+import { SheetNames } from "@/components/SheetNames";
 import axios from "axios";
 import { error } from "console";
 import { title } from "process";
@@ -64,16 +65,31 @@ const HomePage = () => {
   return (
     <div
       id="homepage-container"
-      className="w-full flex flex-col justify-center items-center"
+      className="w-full flex flex-col justify-center items-center space-y-5"
     >
       <div
         id="title-container"
         className="flex flex-col justify-center items-center"
       >
         <h1 className="font-extrabold text-4xl text-primary">REGRESSIONIFY</h1>
-        <p className="font-medium w-72 px-2 text-sm">
-          A Statistical Tool For Mathematicians And Statisticians.
+        <p className="font-medium w-72 px-2 text-sm text-center">
+          A Statistical Tool for Mathematicians and Statisticians.
         </p>
+      </div>
+      <div
+        id="form-container"
+        className="space-y-3 w-72 flex flex-col justify-center"
+      >
+        <h1 className="font-extrabold text-xl text-primary">
+          Worksheet Details
+        </h1>
+        <div
+          id="sheet-name-container"
+          className="w-full flex flex-row justify-center items-center"
+        >
+          <p className="text-sm w-32">Reference Sheet Name</p>
+          <SheetNames />
+        </div>
       </div>
     </div>
   );
