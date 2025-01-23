@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.files.storage import default_storage
-from django.conf import settings
 from .serializers import FileUploadSerializer, SelectSheetSerializer, SelectColumnsSerializer
 import pandas as pd
 from .utils.regression import regression
@@ -82,8 +81,6 @@ class SelectColumns(APIView):
       file_path = serializer.validated_data['file_path']
       
       columns = independent_columns + [dependent_column]
-    
-    
     
       try:
           df = pd.read_excel(file_path, sheet_name=sheetname, usecols=columns)
