@@ -44,7 +44,7 @@ const sheetNames = ["Sheet1", "Sheet2", "Sheet3"];
 
 export function SheetNames() {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(sheetNames[0]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,34 +53,32 @@ export function SheetNames() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-32 justify-between"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select sheet.."}
+          {value}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-40 p-0">
         <Command>
-          <CommandInput placeholder="Select sheet" />
+          <CommandInput placeholder="Search sheet" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No sheet found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {sheetNames.map((sheet) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={sheet}
+                  value={sheet}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {framework.label}
+                  {sheet}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === sheet ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>

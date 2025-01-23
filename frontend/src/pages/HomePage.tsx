@@ -85,7 +85,7 @@ const HomePage = () => {
         </h1>
         <div
           id="sheet-name-container"
-          className="w-full flex flex-row justify-center items-center"
+          className="w-full flex flex-row justify-between items-center"
         >
           <p className="text-sm w-32">Reference Sheet Name</p>
           <SheetNames />
