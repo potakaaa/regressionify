@@ -1,8 +1,8 @@
-import { SheetNames } from "@/components/SheetNames";
+import DropDown from "@/components/Dropdown";
 import axios from "axios";
-import { error } from "console";
-import { title } from "process";
 import { useEffect, useState } from "react";
+
+const sheetNames = ["Sheet1", "Sheet2", "Sheet3"];
 
 const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
@@ -88,7 +88,7 @@ const HomePage = () => {
           className="w-full flex flex-row justify-between items-center"
         >
           <p className="text-sm w-32">Reference Sheet Name</p>
-          <SheetNames />
+          <DropDown propList={sheetNames} />
         </div>
       </div>
     </div>

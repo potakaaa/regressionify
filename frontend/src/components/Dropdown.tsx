@@ -16,35 +16,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { FC } from "react";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+interface DropDownProps {
+  propList: string[];
+}
 
-const sheetNames = ["Sheet1", "Sheet2", "Sheet3"];
-
-export function SheetNames() {
+const DropDown: FC<DropDownProps> = (DropDownProps) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(sheetNames[0]);
+  const [value, setValue] = React.useState(DropDownProps.propList[0]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -65,7 +45,7 @@ export function SheetNames() {
           <CommandList>
             <CommandEmpty>No sheet found.</CommandEmpty>
             <CommandGroup>
-              {sheetNames.map((sheet) => (
+              {DropDownProps.propList.map((sheet) => (
                 <CommandItem
                   key={sheet}
                   value={sheet}
@@ -89,4 +69,6 @@ export function SheetNames() {
       </PopoverContent>
     </Popover>
   );
-}
+};
+
+export default DropDown;
