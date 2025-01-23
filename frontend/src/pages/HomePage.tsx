@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const sheetNames = ["Sheet1", "Sheet2", "Sheet3"];
+const dependent = ["Y1", "Y2", "Y3"];
+const independent = ["X1", "X2", "X3"];
 
 const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
@@ -87,8 +89,15 @@ const HomePage = () => {
           id="sheet-name-container"
           className="w-full flex flex-row justify-between items-center"
         >
-          <p className="text-sm w-32">Reference Sheet Name</p>
+          <p className="text-sm w-32 font-medium">Reference Sheet Name</p>
           <DropDown propList={sheetNames} />
+        </div>
+        <div
+          id="dependent-var-container"
+          className="w-full flex flex-row justify-between items-center"
+        >
+          <p className="text-sm w-32 font-medium">Dependent Variable</p>
+          <DropDown propList={dependent} />
         </div>
       </div>
     </div>
