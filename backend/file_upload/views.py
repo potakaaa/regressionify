@@ -5,6 +5,7 @@ from rest_framework import status
 from django.core.files.storage import default_storage
 from .serializers import FileUploadSerializer, SelectSheetSerializer, SelectColumnsSerializer
 import pandas as pd
+from .models import Files
 from .utils.regression import regression
 # Create your views here.\
 
@@ -13,18 +14,22 @@ class FileUploadView(APIView):
     serializer = FileUploadSerializer(data=request.data)
 
     if serializer.is_valid():
-      uploaded_file = serializer.validated_data['file']
+      file_instance = serializer.save()
+      '''uploaded_file = serializer.validated_data['file']
       
       file_path = default_storage.save(f"uploads/{uploaded_file.name}", uploaded_file)
-      
-      file_full_path = default_storage.path(file_path)
+      '''
+      file_full_path = file_instance.file.path
       
       
       try:
         pd.ExcelFile(file_full_path)
         sheetnames = pd.ExcelFile(file_full_path).sheet_names
+        
+
       
       except Exception as e:
+        default_storage.delete(file_full_path)
         return Response(
                     {"error": f"Could not process the file: {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST
@@ -32,6 +37,7 @@ class FileUploadView(APIView):
       
       return Response({
                         "file_full_path": file_full_path, #STORE THIS IN A REACT STATE
+                        "expiry_date": file_instance.expiry_date,
                         "sheetnames": sheetnames,
                       }, status=status.HTTP_201_CREATED) 
     
