@@ -1,5 +1,6 @@
+from django.core.management.base import BaseCommand
+from file_upload.models import File
 from django.utils import timezone
-from backend.file_upload.models import File
 import logging
 
 logger = logging.getLogger(__name__)
@@ -16,3 +17,10 @@ def delete_expired_media():
         media_file.delete()
 
     return f"{expired_media_files.count()} expired media files have been deleted."
+
+class Command(BaseCommand):
+    help = "Deletes expired media files"
+
+    def handle(self, *args, **kwargs):
+        result = delete_expired_media()
+        self.stdout.write(result)
