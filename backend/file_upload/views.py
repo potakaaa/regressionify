@@ -5,7 +5,7 @@ from rest_framework import status
 from django.core.files.storage import default_storage
 from .serializers import FileUploadSerializer, SelectSheetSerializer, SelectColumnsSerializer
 import pandas as pd
-from .models import Files
+from .models import File
 from .utils.regression import regression
 # Create your views here.\
 

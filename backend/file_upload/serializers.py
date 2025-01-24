@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils.timezone import now, timedelta
-from .models import Files
+from .models import File
 
 from django.core.validators import FileExtensionValidator
 class FileUploadSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class FileUploadSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Files
+        model = File
         fields = ['file', 'expiry_date']
         read_only_fields = ['expiry_date']  
 

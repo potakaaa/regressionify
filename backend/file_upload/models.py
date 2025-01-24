@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Files(models.Model):
+class File(models.Model):
     file = models.FileField(upload_to='uploads/')
     expiry_date = models.DateTimeField( )
 

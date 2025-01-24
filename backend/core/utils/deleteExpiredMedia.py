@@ -1,12 +1,12 @@
 from django.utils import timezone
-from backend.file_upload.models import Files 
+from backend.file_upload.models import File
 import logging
 
 logger = logging.getLogger(__name__)
 
 def delete_expired_media():
     current_date = timezone.now()
-    expired_media_files = Files.objects.filter(expiry_date__lt=current_date)
+    expired_media_files = File.objects.filter(expiry_date__lt=current_date)
 
     for media_file in expired_media_files:
         logger.info(f"Deleting expired media file: {media_file.file.name}")
