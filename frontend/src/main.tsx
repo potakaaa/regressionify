@@ -1,11 +1,9 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import Homepage from "./pages/HomePage.tsx";
 import ResultsPage from "./pages/ResultsPage.tsx";
+import { ThemeProvider } from "./components/provider/theme-provider.tsx";
 
 const router = createHashRouter([
   {
@@ -23,7 +21,7 @@ const router = createHashRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
     <RouterProvider router={router} />
-  </StrictMode>
+  </ThemeProvider>
 );
