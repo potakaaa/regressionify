@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import ResultsPage from "./pages/ResultsPage.tsx";
 import { ThemeProvider } from "./components/provider/theme-provider.tsx";
+import { GlobalStateProvider } from "./components/provider/global-provider.tsx";
 
 const router = createHashRouter([
   {
@@ -22,6 +23,8 @@ const router = createHashRouter([
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-    <RouterProvider router={router} />
+    <GlobalStateProvider>
+      <RouterProvider router={router} />
+    </GlobalStateProvider>
   </ThemeProvider>
 );

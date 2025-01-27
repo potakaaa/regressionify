@@ -1,4 +1,5 @@
 import DropDown from "@/components/Dropdown";
+import IndependentCard from "@/components/IndependentCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -98,6 +99,13 @@ const HomePage = () => {
         >
           <p className="text-sm w-32 font-medium">Dependent Variable</p>
           <DropDown propList={dependent} />
+        </div>
+        <div
+          id="independent-var-container"
+          className="w-full flex flex-row justify-between items-center"
+        >
+          <p className="text-sm w-32 font-medium">Independent Variable</p>
+          <IndependentCard />
         </div>
       </div>
     </div>
