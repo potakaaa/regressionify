@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/popover";
 import { FC } from "react";
 
-interface DropDownProps {
+export interface DropDownProps {
   propList: string[];
+  onClick?: () => void;
 }
 
 const DropDown: FC<DropDownProps> = (DropDownProps) => {
