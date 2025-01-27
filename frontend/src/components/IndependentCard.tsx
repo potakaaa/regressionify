@@ -18,6 +18,11 @@ const independent = ["X1", "X2", "X3"];
 
 const IndependentCard = () => {
   const { independents, setIndependents } = useGlobalState();
+
+  const handleAddIndependent = (independent: string) => {
+    setIndependents([...independents, independent]);
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -32,6 +37,7 @@ const IndependentCard = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Select Independent Variables</AlertDialogTitle>
           <AlertDialogDescription>
+            {/* HAVE TO MAP INDEPENDENTS HERE AND CREATE LAYOUR FOR ADDED INDEPENDENTS */}
             <DropDown propList={independent}></DropDown>
           </AlertDialogDescription>
         </AlertDialogHeader>
