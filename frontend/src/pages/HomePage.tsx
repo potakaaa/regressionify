@@ -1,5 +1,7 @@
 import DropDown from "@/components/Dropdown";
 import IndependentCard from "@/components/IndependentCard";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -106,6 +108,10 @@ const HomePage = () => {
         >
           <p className="text-sm w-32 font-medium">Independent Variable</p>
           <IndependentCard />
+        </div>
+        <div id="file-upload-container" className="w-full pt-7 space-y-1">
+          <Label className="text-sm font-medium ml-1">Upload Excel File</Label>
+          <Input type="file" accept=".xlsx, .xls" className="text-sm" />
         </div>
       </div>
     </div>

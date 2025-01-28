@@ -40,7 +40,9 @@ const IndependentCard = () => {
           className="w-32 overflow-hidden text-ellipsis inline-block"
         >
           {independents.length > 0
-            ? independents.map((item) => item + ", ")
+            ? independents.map((item, index) =>
+                index === independents.length - 1 ? item : item + ", "
+              )
             : "Select Independent"}
         </Button>
       </AlertDialogTrigger>
@@ -48,7 +50,6 @@ const IndependentCard = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Select Independent Variables</AlertDialogTitle>
           <AlertDialogDescription>
-            {/* HAVE TO MAP INDEPENDENTS HERE AND CREATE LAYOUR FOR ADDED INDEPENDENTS */}
 
             <div className="flex flex-row justify-between">
               <div className="grid grid-cols-3 gap-3">
