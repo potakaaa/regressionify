@@ -28,6 +28,10 @@ const IndependentCard = () => {
     }
   };
 
+  const handleDeleteIndependent = (independent: string) => {
+    setIndependents(independents.filter((item) => item !== independent));
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -53,7 +57,10 @@ const IndependentCard = () => {
                     <p className=" text-ellipsis inline-block overflow-hidden">
                       {item}
                     </p>
-                    <button className="hover:bg-white hover:bg-opacity-10 p-1 rounded-lg">
+                    <button
+                      className="hover:bg-white hover:bg-opacity-10 p-1 rounded-lg"
+                      onClick={() => handleDeleteIndependent(item)}
+                    >
                       <Trash size={15} className="text-red-500" />
                     </button>
                   </div>
