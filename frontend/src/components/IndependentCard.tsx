@@ -50,11 +50,10 @@ const IndependentCard = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Select Independent Variables</AlertDialogTitle>
           <AlertDialogDescription>
-
             <div className="flex flex-row justify-between">
               <div className="grid grid-cols-3 gap-3">
                 {independents.map((item) => (
-                  <div className="flex flex-row p-2 items-center justify-between border border-secondary rounded-lg w-24">
+                  <div className="flex flex-row p-2 items-center justify-between border border-border rounded-lg w-24">
                     <p className=" text-ellipsis inline-block overflow-hidden">
                       {item}
                     </p>
