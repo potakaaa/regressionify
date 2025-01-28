@@ -20,7 +20,7 @@ import { FC } from "react";
 
 export interface DropDownProps {
   propList: string[];
-  onClick?: () => void;
+  onClick?: (selectedValue: string) => void;
 }
 
 const DropDown: FC<DropDownProps> = (DropDownProps) => {
@@ -51,8 +51,9 @@ const DropDown: FC<DropDownProps> = (DropDownProps) => {
                   key={sheet}
                   value={sheet}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setValue(currentValue === value ? value : currentValue);
                     setOpen(false);
+                    DropDownProps.onClick?.(currentValue);
                   }}
                 >
                   {sheet}

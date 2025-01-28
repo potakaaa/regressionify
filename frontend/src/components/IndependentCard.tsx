@@ -21,7 +21,11 @@ const IndependentCard = () => {
   const { independents, setIndependents } = useGlobalState();
 
   const handleAddIndependent = (independent: string) => {
-    setIndependents([...independents, independent]);
+    if (!independents.includes(independent)) {
+      setIndependents([...independents, independent]);
+    } else {
+      console.log(`${independent} already exists in the list.`);
+    }
   };
 
   return (
@@ -31,7 +35,9 @@ const IndependentCard = () => {
           variant="outline"
           className="w-32 overflow-hidden text-ellipsis inline-block"
         >
-          {independents.length > 0 ? independents[0] : "Select Independent"}
+          {independents.length > 0
+            ? independents.map((item) => item + ", ")
+            : "Select Independent"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -42,7 +48,7 @@ const IndependentCard = () => {
 
             <div className="flex flex-row justify-between">
               <div className="grid grid-cols-3 gap-3">
-                {independent.map((item) => (
+                {independents.map((item) => (
                   <div className="flex flex-row p-2 items-center justify-between border border-secondary rounded-lg w-24">
                     <p className=" text-ellipsis inline-block overflow-hidden">
                       {item}
@@ -53,7 +59,10 @@ const IndependentCard = () => {
                   </div>
                 ))}
               </div>
-              <DropDown propList={independent}></DropDown>
+              <DropDown
+                propList={independent}
+                onClick={handleAddIndependent}
+              ></DropDown>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
