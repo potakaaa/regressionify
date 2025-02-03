@@ -1,4 +1,4 @@
-import { ModeToggle } from "./components/theme/mode-toggle";
+// import { ModeToggle } from "./components/theme/mode-toggle";
 import Homepage from "./pages/HomePage";
 
 const App = () => {

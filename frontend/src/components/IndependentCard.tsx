@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useGlobalState } from "./provider/global-provider";
-import { FC } from "react";
-import DropDown, { DropDownProps } from "./Dropdown";
+import DropDown from "./Dropdown";
 import { Trash } from "lucide-react";
 
 const independent = ["X1", "X2", "X3"];

@@ -7,13 +7,15 @@ import { useEffect, useState } from "react";
 
 const sheetNames = ["Sheet1", "Sheet2", "Sheet3"];
 const dependent = ["Y1", "Y2", "Y3"];
-const independent = ["X1", "X2", "X3"];
 
 const HomePage = () => {
   const [sheetname, setSheetname] = useState<string | null>(null);
   const [sheetList, setSheetList] = useState<string[]>([]);
   const [columnList, setColumnList] = useState<string[]>([]);
   const [filePath, setFilePath] = useState<string | null>(null);
+
+  console.log(sheetname);
+  console.log(columnList);
 
   const handleFileUpload = (e: any) => {
     const uploadedFile = e.target.files[0];
@@ -61,6 +63,9 @@ const HomePage = () => {
         );
       });
   };
+
+  console.log(handleFileUpload);
+  console.log(handleSheetSelect);
 
   useEffect(() => {
     console.log("Sheets: ", sheetList);
